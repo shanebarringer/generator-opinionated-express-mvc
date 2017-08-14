@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ./server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "bookshelf": "^0.10.4",
+    "chai": "^4.1.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.4",
+    "knex": "^0.13.0",
+    "mocha": "^3.5.0",
+    "pg": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
