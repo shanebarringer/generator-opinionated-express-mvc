@@ -26,6 +26,7 @@ yo opinionated-express-mvc
 
 * Add test configuration with Mocha and Chai
 * Provide additional seed data
+* script for rolling back migrations
 * Add additional logic (and prompts) for using additional relational databases technologies
 * Potential support for adding a React view layer
 
@@ -35,6 +36,12 @@ yo opinionated-express-mvc
  * Yeoman is a person with feelings and opinions, but is very easy to work with.
  * Yeoman can be too opinionated at times but is easily convinced not to be.
  * Feel free to [learn more about Yeoman](http://yeoman.io/).
+
+## Contributing
+
+* fork/clone
+* make changes
+* submit a PR
 
 ## License
 
