@@ -5,7 +5,7 @@ const Artist = Bookshelf.Model.extend({
   tableName: 'artists',
   hasTimestamps: true,
   albums: function() {
-    return this.hasMany('Album');
+    return this.hasMany('Album', 'artist_id');
   },
 });
 

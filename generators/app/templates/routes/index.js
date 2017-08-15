@@ -9,6 +9,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/artists', ArtistRoutes)
-// app.use('/albums', AlbumRoutes)
+app.use('/albums', AlbumRoutes)
 
 module.exports = app
