@@ -9,59 +9,57 @@ module.exports = class extends Generator {
   constructor(args, options) {
     super(args, options);
 
-    this.issueCommand = command => (
-      exec(command, (err, stdout, stderr) => {
-        if (err) {
-          throw err;
-        }
-        this.log('stdout: ' + stdout);
-        this.log('stderr: ' + stderr);
-      })
-    );
+    this.issueCommand = command => {
+      return new Promise((resolve, reject) => {
+        exec(command, (err, stdout) => err ? reject(err) : resolve(stdout));
+      });
+    };
   }
 
-  // initializing() {
-  //   this.composeWith(require.resolve('../knex'));
-  // }
   prompting() {
     this.log(yosay('Welcome to the lovely ' + chalk.red('opinionated-express-mvc') + ' generator!'));
 
     const prompts = [
-      // {
-      //   type: 'confirm',
-      //   name: 'hasDatabase',
-      //   message: 'Do you have a database for your application? (if not, we will create it for you)',
-      //   default: true
-      // },
+      {
+        type: 'input',
+        required: true,
+        name: 'appName',
+        message: chalk.bgCyan('What would you like to name this application?')
+      },
+      {
+        type: 'confirm',
+        name: 'hasDatabase',
+        message: `Have you created a database? (y/n)
+${chalk.inverse("No worries if not! We'll create one for you momentarily.")} 😎`,
+        default: false
+      },
       {
         type: 'input',
         name: 'dbName',
-        message: 'What would you like to name your database? (leave blank if database has been created)',
+        message: `What would you like to name your new (or existing) database?
+        ${chalk.inverse('leave blank to use your application name')}`,
         default: ''
       }
     ];
 
     return this.prompt(prompts).then(props => {
-      // To access props later use this.props.someAnswer;
       this.props = props;
+      this.props.dbName = props.dbName ? props.dbName : this.props.appName;
     });
   }
 
   writing() {
     const structureProject = () => {
       return new Promise((resolve, reject) => {
-        fs.readdir(this.templatePath(), (err, files) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(files);
-        });
+        fs.readdir(this.templatePath(), (err, files) => err ? reject(err) : resolve(files));
       });
     };
 
     const filterFiles = files => (
       files.filter(file => file !== 'node_modules')
         .filter(file => file !== 'yarn.lock')
+        .filter(file => file !== 'knexfile.js')
+        .filter(file => file !== 'package.json')
     );
 
     const generateFiles = files => (
@@ -71,9 +69,19 @@ module.exports = class extends Generator {
       })
     );
 
+    const generateTemplate = file => this.fs.copyTpl(
+      this.templatePath(file),
+      this.destinationPath(file), {
+        db: this.props.dbName,
+        appName: this.props.appName
+      }
+    );
+
     structureProject()
       .then(files => filterFiles(files))
       .then(filteredFiles => generateFiles(filteredFiles))
+      .then(() => generateTemplate('package.json'))
+      .then(() => generateTemplate('knexfile.js'))
       .catch(err => new Error(err));
   }
 
@@ -86,6 +94,45 @@ module.exports = class extends Generator {
   }
 
   end() {
-    this.issueCommand('knex init');
+    const db = this.props.dbName;
+
+    const dbMigrate = env => {
+      this.log(chalk.underline(`🚜 migrating ${db}_${env} database 🚜`));
+      this.issueCommand(`knex migrate:latest --env ${env}`)
+        .then(() => this.log(`🌱 seeding ${db}_${env} database 🌱`))
+        .then(() => this.issueCommand(`knex seed:run --env ${env}`))
+        .catch(error => this.log(error));
+    };
+
+    const dbSetup = env => {
+      this.log(`🏗️ setting up ${db}_${env} database 🏗️`);
+      this.issueCommand(`createdb ${db}_${env}`)
+        .then(() => dbMigrate(env))
+        .catch(error => handleDbError(error, env));
+    };
+
+    const handleDbError = (error, env) => {
+      if (error.toString().includes(`already exists`)) {
+        this.log(chalk.red(
+          `${db}_${env} already exists, attempting to drop and re-create`
+        ));
+        this.issueCommand(`dropdb ${db}_${env}`)
+          .then(() => dbSetup(env));
+      } else {
+        this.log(chalk.red(error));
+      }
+    };
+
+    if (this.props.hasDatabase) {
+      dbMigrate('dev');
+      dbMigrate('test');
+    } else {
+      dbSetup('dev');
+      dbSetup('test');
+    }
   }
 };
+
+// Initializing() {
+//   this.composeWith(require.resolve('../knex'));
+// }
