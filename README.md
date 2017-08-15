@@ -1,9 +1,15 @@
 # opinionated-express-mvc [![NPM version][npm-image]][npm-url] [![Build Status]] [![Dependency Status][daviddm-image]][daviddm-url]
 > Scaffolding for express API
 
+## Description
+
+Sets up an Express API configured for use with Postgres database using bookshelf and knex. Includes two resources with restful route configuraiton and associations.
+
 ## Installation
 
 First, install [Yeoman](http://yeoman.io) and generator-opinionated-express-mvc using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+
+This generator assumes user has postgres installed and running.
 
 ```bash
 npm install -g yo
@@ -16,6 +22,13 @@ Then generate your new project:
 yo opinionated-express-mvc
 ```
 
+## Todo
+
+* Add test configuration with Mocha and Chai
+* Provide additional seed data
+* Add additional logic (and prompts) for using additional relational databases technologies
+* Potential support for adding a React view layer
+
 ## Getting To Know Yeoman
 
  * Yeoman has a heart of gold.
@@ -26,7 +39,6 @@ yo opinionated-express-mvc
 ## License
 
 MIT © [shane barringer]()
-
 
 [npm-image]: https://badge.fury.io/js/generator-opinionated-express-mvc.svg
 [npm-url]: https://npmjs.org/package/generator-opinionated-express-mvc
