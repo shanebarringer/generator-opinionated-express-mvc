@@ -26,9 +26,8 @@ yo opinionated-express-mvc
 ## Todo
 
 * Add test configuration with Mocha and Chai
-* Provide additional seed data
 * script for rolling back migrations
-* Add additional logic (and prompts) for using additional relational databases technologies
+* Add additional logic (and prompts) for using alternative relational databases technologies
 * Potential support for adding a React view layer
 
 ## Getting To Know Yeoman
