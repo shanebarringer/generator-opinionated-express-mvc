@@ -1,6 +1,6 @@
 {
   "name": "generator-opinionated-express-mvc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scaffolding for an Express API using PostgreSQL with knex and bookshelf.",
   "homepage": "https://github.com/shanebarringer/generator-opinionated-express-mvc",
   "author": {
