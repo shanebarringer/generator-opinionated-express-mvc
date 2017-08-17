@@ -3,7 +3,7 @@
 
 ## Description
 
-Sets up an Express API configured for use with Postgres database using bookshelf and knex. Includes two resources with restful route configuraiton and associations.
+Sets up an Express API configured for use with Postgres database through bookshelf and knex. Includes two resources with restful route configuraiton and associations.
 
 This generator assumes user has postgres installed and running.
 
@@ -26,7 +26,6 @@ yo opinionated-express-mvc
 ## Todo
 
 * Add test configuration with Mocha and Chai
-* script for rolling back migrations
 * Add additional logic (and prompts) for using alternative relational databases technologies
 * Potential support for adding a React view layer
 
