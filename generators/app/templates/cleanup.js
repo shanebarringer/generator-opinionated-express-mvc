@@ -27,7 +27,15 @@ const appendFileName = (file) => new Promise ((resolve, reject) =>
 const onlyDirectories = (stats) => stats
   .filter(stat => stat[0].isDirectory())
     .map(stat => stat[1])
+      .filter(dir => !dir.includes(`node_modules`))
 
+const newIndex = () => fs.writeFile('./routes/index.js',
+    `const express = require('express');
+    const app = express();
+    module.exports = app`, (err) => {
+      if (err) throw err;
+      console.log('All done!');
+  })
 
 const handleErrors = (error) => {
   console.log(error)
@@ -41,7 +49,5 @@ rootFiles()
   .then(filenames => Promise.all(filenames.map(filename => fs.emptyDir(filename))))
   .then(() => dropDB(knex_dev))
   .then(() => dropDB(knex_test))
-  .then(() => console.log(chalk.inverse(`hang tight! We're cleaning things up`)))
-  .then(() => issueCommand('yarn'))
-  .then(stdout => console.log(stdout))
+  .then(() => newIndex())
   .catch((err) => handleErrors(err))
