@@ -24,20 +24,18 @@ module.exports = class extends Generator {
         type: 'input',
         required: true,
         name: 'appName',
-        message: chalk.bgCyan('What would you like to name this application?')
+        message: chalk.cyan('What would you like to name this application?')
       },
       {
         type: 'confirm',
         name: 'hasDatabase',
-        message: `Have you created a database? (y/n)
-${chalk.inverse("No worries if not! We'll create one for you momentarily.")} 😎`,
+        message: `Have you created a database? (y/n) ${chalk.inverse("No worries if not! We'll create one for you momentarily.")} 😎`,
         default: false
       },
       {
         type: 'input',
         name: 'dbName',
-        message: `What would you like to name your new (or existing) database?
-        ${chalk.inverse('leave blank to use your application name')}`,
+        message: `What would you like to name your new (or existing) database? ${chalk.underline('leave blank to use your application name')}`,
         default: ''
       }
     ];
@@ -132,7 +130,3 @@ ${chalk.inverse("No worries if not! We'll create one for you momentarily.")} �
     }
   }
 };
-
-// Initializing() {
-//   this.composeWith(require.resolve('../knex'));
-// }
