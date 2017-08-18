@@ -29,7 +29,7 @@ module.exports = class extends Generator {
       {
         type: 'confirm',
         name: 'hasDatabase',
-        message: `Have you created a database? (y/n) ${chalk.inverse("No worries if not! We'll create one for you momentarily.")} 😎`,
+        message: `Have you created a database? (y/n) ${chalk.inverse('No worries if not! We\'ll create one for you momentarily.')} 😎`,
         default: false
       },
       {
@@ -61,8 +61,8 @@ module.exports = class extends Generator {
     );
 
     const generateFiles = files => (
-      files.forEach(async file => {
-        await this.fs.copy(
+      files.forEach(file => {
+        this.fs.copy(
           this.templatePath(file), this.destinationPath(file));
       })
     );
