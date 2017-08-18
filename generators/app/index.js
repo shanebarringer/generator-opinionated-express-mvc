@@ -63,19 +63,23 @@ module.exports = class extends Generator {
     const generateFiles = files => (
       files.forEach(file => {
         this.fs.copy(
-          this.templatePath(file), this.destinationPath(file));
+          this.templatePath(file), this.destinationPath(`${this.props.appName}/${file}`));
       })
     );
 
     const generateTemplate = file => this.fs.copyTpl(
       this.templatePath(file),
-      this.destinationPath(file), {
+      this.destinationPath(`${this.props.appName}/${file}`), {
         db: this.props.dbName,
         appName: this.props.appName
       }
     );
 
-    structureProject()
+    this.issueCommand(`mkdir ${this.props.appName}`)
+      .then(() => process.chdir(`${this.props.appName}`))
+      .then(() => this.issueCommand(`pwd`))
+      .then(where => this.log(chalk.red(where)))
+      .then(() => structureProject())
       .then(files => filterFiles(files))
       .then(filteredFiles => generateFiles(filteredFiles))
       .then(() => generateTemplate('package.json'))
@@ -121,12 +125,22 @@ module.exports = class extends Generator {
       }
     };
 
-    if (this.props.hasDatabase) {
-      dbMigrate('dev');
-      dbMigrate('test');
-    } else {
-      dbSetup('dev');
-      dbSetup('test');
-    }
+    const runYarn = () => {
+      this.log(chalk.yellow('hang on we are installing your dependencies'));
+      this.issueCommand(`yarn`)
+        .then(output => this.log(output))
+        .then(() => {
+          if (this.props.hasDatabase) {
+            dbMigrate('dev');
+            dbMigrate('test');
+          } else {
+            dbSetup('dev');
+            dbSetup('test');
+          }
+        })
+        .catch(err => this.log(err));
+    };
+
+    runYarn();
   }
 };
