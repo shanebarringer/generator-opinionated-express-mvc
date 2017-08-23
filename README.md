@@ -34,8 +34,16 @@ $ yarn add https://github.com/shanebarringer/generator-opinionated-express-mvc.g
 
 To generate your new project run:
 
+##### global
+
 ```bash
 $ yo opinionated-express-mvc
+```
+
+##### local
+
+```bash
+$ yarn yo opinionated-express-mvc
 ```
 
 _note: this generator creates a directory for your project. If you've run the local install option, your project will be nested in a new directory. To fix this issue, `mv` the entire directory up one level by running `$ mv <your-app-name>/* ./ && mv <your-app-name>/.* ./`_
