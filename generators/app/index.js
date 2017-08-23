@@ -99,28 +99,28 @@ module.exports = class extends Generator {
   end() {
     const db = this.props.dbName;
 
-    const dbMigrate = env => {
-      this.log(chalk.underline(`🚜 migrating ${db}_${env} database 🚜`));
+    const dbMigrate = (env, suffix) => {
+      this.log(chalk.underline(`🚜 migrating ${db}_${suffix} database 🚜`));
       this.issueCommand(`knex migrate:latest --env ${env}`)
-        .then(() => this.log(`🌱 seeding ${db}_${env} database 🌱`))
+        .then(() => this.log(`🌱 seeding ${db}_${suffix} database 🌱`))
         .then(() => this.issueCommand(`knex seed:run --env ${env}`))
         .catch(error => this.log(error));
     };
 
-    const dbSetup = env => {
-      this.log(`🏗️ setting up ${db}_${env} database 🏗️`);
-      this.issueCommand(`createdb ${db}_${env}`)
-        .then(() => dbMigrate(env))
-        .catch(error => handleDbError(error, env));
+    const dbSetup = (env, suffix) => {
+      this.log(`🏗️ setting up ${db}_${suffix} database 🏗️`);
+      this.issueCommand(`createdb ${db}_${suffix}`)
+        .then(() => dbMigrate(env, suffix))
+        .catch(error => handleDbError(error, env, suffix));
     };
 
-    const handleDbError = (error, env) => {
+    const handleDbError = (error, env, suffix) => {
       if (error.toString().includes(`already exists`)) {
         this.log(chalk.red(
-          `${db}_${env} already exists, attempting to drop and re-create`
+          `${db}_${suffix} already exists, attempting to drop and re-create`
         ));
-        this.issueCommand(`dropdb ${db}_${env}`)
-          .then(() => dbSetup(env));
+        this.issueCommand(`dropdb ${db}_${suffix}`)
+          .then(() => dbSetup(env, suffix));
       } else {
         this.log(chalk.red(error));
       }
@@ -136,11 +136,11 @@ module.exports = class extends Generator {
         .then(() => spinner.stop())
         .then(() => {
           if (this.props.hasDatabase) {
-            dbMigrate('development');
-            dbMigrate('test');
+            dbMigrate('development', 'dev');
+            dbMigrate('test', 'test');
           } else {
-            dbSetup('development');
-            dbSetup('test');
+            dbSetup('development', 'dev');
+            dbSetup('test', 'test');
           }
         })
         .catch(err => this.log(err));
