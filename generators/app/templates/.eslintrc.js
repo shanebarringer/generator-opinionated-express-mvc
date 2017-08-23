@@ -11,11 +11,12 @@ module.exports = {
     "comma-dangle": 0,
     "space-before-function-paren": 0,
     "func-names": 0,
-    'arrow-parens': ['error', 'as-needed', {
+    "arrow-parens": ['error', 'as-needed', {
       requireForBlockBody: false,
     }],
+    "semi": ["error", "never"],
   },
   "plugins": [
     "import"
   ]
-};
+}
