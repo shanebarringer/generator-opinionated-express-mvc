@@ -3,8 +3,9 @@ const path = require('path')
 
 module.exports = {
 
-  dev: {
+  development: {
     client: 'postgresql',
+    debug: false,
     connection: {
       host : '127.0.0.1',
       database : `${db}_dev`,

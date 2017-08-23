@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const exec = require('child_process').exec;
 const chalk = require('chalk');
-const knex_dev = require('./knexfile').dev.connection.database
+const knex_dev = require('./knexfile').development.connection.database
 const knex_test = require('./knexfile').test.connection.database
 
 const issueCommand = command => new Promise((resolve, reject) =>

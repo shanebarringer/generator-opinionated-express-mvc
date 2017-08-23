@@ -136,10 +136,10 @@ module.exports = class extends Generator {
         .then(() => spinner.stop())
         .then(() => {
           if (this.props.hasDatabase) {
-            dbMigrate('dev');
+            dbMigrate('development');
             dbMigrate('test');
           } else {
-            dbSetup('dev');
+            dbSetup('development');
             dbSetup('test');
           }
         })
