@@ -5,36 +5,56 @@
 
 Sets up an Express API configured for use with Postgres database through bookshelf and knex. Includes two resources with restful route configuraiton and associations.
 
-This generator assumes user has postgres installed and running.
+_This generator assumes user has postgres installed and running on your machine._
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-opinionated-express-mvc using [npm](https://www.npmjs.com/)
+### Global Install
 
+To install globally, simply run:
 
 ```bash
 npm install -g yo
 npm install -g generator-opinionated-express-mvc
 ```
 
-Then generate your new project:
+### Local Install
+
+If you don't have permissions to install packages globally follow the following steps
 
 ```bash
-yo opinionated-express-mvc
+$ mkdir <your-app-name>
+$ cd <your-app-name>
+$ yarn init -y
+$ yarn add yo
+$ yarn add https://github.com/shanebarringer/generator-opinionated-express-mvc.git
 ```
+
+## Setup
+
+To generate your new project run:
+
+```bash
+$ yo opinionated-express-mvc
+```
+
+_note: this generator creates a directory for your project. If you've run the local install option, your project will be nested in a new directory. To fix this issue, `mv` the entire directory up one level by running `$ mv <your-app-name>/* ./ && mv <your-app-name>/.* ./`_
+
+Once the install/setup is complete, you'll be able to run the server and view the available resources at `http://localhost:3001`. Once satisfied, run the cleanup script.
+
+```bash
+$ yarn cleanup
+```
+
+This command will leave the directory structure intact, while removing the existing models, migrations, seeds, routes, etc.
+
 
 ## Todo
 
 * Add test configuration with Mocha and Chai
 * Add additional logic (and prompts) for using alternative relational databases technologies
+* Scaffolding commands
 * Potential support for adding a React view layer
-
-## Getting To Know Yeoman
-
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
 
 ## Contributing
 
