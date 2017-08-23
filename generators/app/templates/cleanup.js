@@ -28,6 +28,7 @@ const onlyDirectories = (stats) => stats
   .filter(stat => stat[0].isDirectory())
     .map(stat => stat[1])
       .filter(dir => !dir.includes(`node_modules`))
+        .filter(dir => !dir.includes(`.git`))
 
 const newIndex = () => fs.writeFile('./routes/index.js',
     `const express = require('express');

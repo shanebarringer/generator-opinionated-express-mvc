@@ -2,6 +2,7 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const ora = require('ora');
 const fs = require('fs');
 const exec = require('child_process').exec;
 
@@ -126,9 +127,13 @@ module.exports = class extends Generator {
     };
 
     const runYarn = () => {
-      this.log(chalk.yellow('hang on we are installing your dependencies'));
+      const spinner = ora(`${chalk.yellow('hang on we are installing your dependencies')}`).start();
+      setTimeout(() => {
+        spinner.color = 'yellow';
+      }, 1000);
       this.issueCommand(`yarn`)
-        .then(output => this.log(output))
+        .then(output => this.log(`\n${output}`))
+        .then(() => spinner.stop())
         .then(() => {
           if (this.props.hasDatabase) {
             dbMigrate('dev');
