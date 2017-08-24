@@ -36,9 +36,9 @@ const newIndex = () => fs.writeFile('./routes/index.js',
   `const express = require('express');
 const app = express();
 module.exports = app`, err => {
-    if (err) throw err;
-    console.log('All done!');
-  }
+  if (err) throw err;
+  console.log('All done!');
+}
 );
 
 rootFiles()

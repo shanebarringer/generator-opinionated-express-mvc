@@ -15,6 +15,8 @@ module.exports = class extends Generator {
         exec(command, (err, stdout) => err ? reject(err) : resolve(stdout));
       });
     };
+
+    this.config.save();
   }
 
   prompting() {
