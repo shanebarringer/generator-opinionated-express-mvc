@@ -44,3 +44,12 @@ app.set('port', process.env.PORT || 3001);
 app.listen(app.get('port'), () => {
   console.log(`👩‍💻  App listening at port ${app.get('port')} ‍💻`);
 });
+
+/**
+ * Graceful exit on SIGTERM
+ * Used when shutting down the test server after running
+ * unit tests.
+ */
+process.on('SIGTERM', () => {
+  process.exit(0);
+});
