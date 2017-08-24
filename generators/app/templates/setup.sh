@@ -1,11 +1,11 @@
 #!/bin/bash
 
-dropdb <%= dbName %>_dev
-createdb <%= dbName %>_dev
+dropdb <%= db %>_dev
+createdb <%= db %>_dev
 yarn migrate
 yarn seeds
 
-dropdb <%= dbName %>_test
-createdb <%= dbName %>_test
+dropdb <%= db %>_test
+createdb <%= db %>_test
 yarn migrate-test
 yarn seeds-test

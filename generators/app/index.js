@@ -55,20 +55,22 @@ module.exports = class extends Generator {
     };
 
     const filterFiles = files => (
-      files.filter(file => file !== 'node_modules')
+      files
+        .filter(file => file !== 'node_modules')
         .filter(file => file !== 'yarn.lock')
         .filter(file => file !== 'knexfile.js')
         .filter(file => file !== 'package.json')
+        .filter(file => file !== 'setup.sh')
     );
 
-    const generateFiles = files => (
+    const copyFiles = files => (
       files.forEach(file => {
         this.fs.copy(
           this.templatePath(file), this.destinationPath(`${this.props.appName}/${file}`));
       })
     );
 
-    const generateTemplate = file => this.fs.copyTpl(
+    const generateFileFromTemplate = file => this.fs.copyTpl(
       this.templatePath(file),
       this.destinationPath(`${this.props.appName}/${file}`), {
         db: this.props.dbName,
@@ -78,13 +80,16 @@ module.exports = class extends Generator {
 
     this.issueCommand(`mkdir ${this.props.appName}`)
       .then(() => process.chdir(`${this.props.appName}`))
-      .then(() => this.issueCommand(`pwd`))
-      .then(where => this.log(chalk.red(where)))
       .then(() => structureProject())
       .then(files => filterFiles(files))
-      .then(filteredFiles => generateFiles(filteredFiles))
-      .then(() => generateTemplate('package.json'))
-      .then(() => generateTemplate('knexfile.js'))
+      .then(filteredFiles =>
+        Promise.all([
+          copyFiles(filteredFiles),
+          generateFileFromTemplate('package.json'),
+          generateFileFromTemplate('knexfile.js'),
+          generateFileFromTemplate('setup.sh')
+        ])
+      )
       .catch(err => new Error(err));
   }
 
