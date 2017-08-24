@@ -1,12 +1,12 @@
 const Album = require(`${__dirname}/../../models/albumModel`);
-const Base = require('./baseQueries')
+const Base = require('./baseQueries');
 
-const getAll = () => Base.getAll(Album)
+const getAll = () => Base.getAll(Album);
 
-const getOne = (id) => Base.getOne(Album)(id, 'artist')
+const getOne = (id) => Base.getOne(Album)(id, 'artist');
 
-const add = album => Base.add(Album)(album)
+const add = album => Base.add(Album)(album);
 
-const update = (id, body) => Base.update(Album)(id, body)
+const update = (id, body) => Base.update(Album)(id, body);
 
-module.exports = {getAll, getOne, add, update}
+module.exports = { getAll, getOne, add, update };

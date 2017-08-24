@@ -1,10 +1,10 @@
 const Bookshelf = require('../bookshelf');
-require('./albumModel')
+require('./albumModel');
 
 const Album = Bookshelf.Model.extend({
   tableName: 'albums',
   hasTimestamps: true,
-  artist: function() {
+  artist() {
     return this.belongsTo('Artist');
   },
 });

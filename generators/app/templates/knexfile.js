@@ -1,15 +1,14 @@
-const db = '<%= db %>'
-const path = require('path')
+const db = '<%= db %>';
+const path = require('path');
 
 module.exports = {
-
   development: {
     client: 'postgresql',
     debug: false,
     connection: {
-      host : '127.0.0.1',
-      database : `${db}_dev`,
-      charset  : 'utf8'
+      host: '127.0.0.1',
+      database: `${db}_dev`,
+      charset: 'utf8'
     },
     migrations: {
       directory: path.join('db', 'migrations')
@@ -22,9 +21,9 @@ module.exports = {
   test: {
     client: 'postgresql',
     connection: {
-      host : '127.0.0.1',
-      database : `${db}_test`,
-      charset  : 'utf8'
+      host: '127.0.0.1',
+      database: `${db}_test`,
+      charset: 'utf8'
     },
     migrations: {
       directory: path.join('db', 'migrations')
