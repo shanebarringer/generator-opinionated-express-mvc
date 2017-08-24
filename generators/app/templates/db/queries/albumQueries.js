@@ -1,9 +1,9 @@
-const Album = require(`${__dirname}/../../models/albumModel`);
+const Album = require('../../models/albumModel');
 const Base = require('./baseQueries');
 
 const getAll = () => Base.getAll(Album);
 
-const getOne = (id) => Base.getOne(Album)(id, 'artist');
+const getOne = id => Base.getOne(Album)(id, 'artist');
 
 const add = album => Base.add(Album)(album);
 
