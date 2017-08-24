@@ -34,8 +34,8 @@ const onlyDirectories = stats => stats
 
 const newIndex = () => fs.writeFile('./routes/index.js',
   `const express = require('express');
-  const app = express();
-  module.exports = app`, err => {
+const app = express();
+module.exports = app`, err => {
     if (err) throw err;
     console.log('All done!');
   }

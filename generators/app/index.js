@@ -103,7 +103,8 @@ module.exports = class extends Generator {
       this.log(chalk.underline(`🚜 migrating ${db}_${suffix} database 🚜`));
       this.issueCommand(`knex migrate:latest --env ${env}`)
         .then(() => this.log(`🌱 seeding ${db}_${suffix} database 🌱`))
-        .then(() => this.issueCommand(`knex seed:run --env ${env}`))
+        // .then(() => this.issueCommand(`knex seed:run --env ${env}`))
+        .then(() => this.issueCommand(`yarn seed${suffix}`))
         .catch(error => this.log(error));
     };
 

@@ -31,6 +31,7 @@ async function seed() {
 }
 
 try {
+  console.log('seeding DB via Bookshelf Models...');
   seed();
 } catch (err) {
   console.error('ERROR:', err);

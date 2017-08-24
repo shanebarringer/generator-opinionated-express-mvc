@@ -2,8 +2,8 @@
 
 dropdb <%= dbName %>_dev
 createdb <%= dbName %>_dev
-yarn migrate
-yarn seeds
+yarn migrate-dev
+yarn seeds-dev
 
 dropdb <%= dbName %>_test
 createdb <%= dbName %>_test
